@@ -19,11 +19,13 @@ public class TwoNumberSum implements Algo {
   
   private void process(Array<Integer> inArray, int targetSum) {
     int[] array = format(inArray);
-    int[] result = twoNumberSum_v1(array, targetSum);
+    int[] result = twoNumberSum_v2(array, targetSum);
     printAlgoCall(array, targetSum);
     Utils.printIntArray(result);
+    Utils.println();
   }
   
+  @SuppressWarnings("unused")
   private int[] twoNumberSum_v1(int[] array, int targetSum) {
     for(int i = 0; i < array.length; ++i){
       for(int j = 0; j < array.length; ++j){
@@ -41,14 +43,11 @@ public class TwoNumberSum implements Algo {
   private int[] twoNumberSum_v2(int[] array, int targetSum) {
     Set<Integer> set = new HashSet<>();
     for(int i = 0; i < array.length; ++i){
-      int diff = Math.abs(targetSum - array[i]);
+      int diff = targetSum - array[i];
       if(set.contains(diff)) {
-        if(diff + array[i] == targetSum) {
-          return new int[] {diff, array[i]};
-        }
-      } else {
-        set.add(diff);
-      }
+         return new int[] {diff, array[i]};
+      } 
+       set.add(array[i]);
     }
     
     return new int[] {};

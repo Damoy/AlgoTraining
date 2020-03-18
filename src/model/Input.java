@@ -27,6 +27,13 @@ public class Input {
 		return this;
 	}
 	
+	public Input overrideEntry(Class type, Object value) {
+	  List<Object> inputValues = new ArrayList<>();
+	  inputValues.add(value);
+	  content.put(type, inputValues);
+	  return this;
+	}
+	
   public List<Object> getEntry(Class type){
 		return content.containsKey(type)
 		    ? content.get(type)

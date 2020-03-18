@@ -12,6 +12,10 @@ public final class Utils {
     System.out.println(o.toString());
   }
   
+  public static void println() {
+    System.out.println();
+  }
+  
   public static <T> String arrayToString(T[] arr) {
     StringBuilder sb = new StringBuilder();
     sb.append("[");
