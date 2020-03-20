@@ -1,6 +1,7 @@
 package run;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -21,26 +22,129 @@ public class Main {
 		branchSums();
 		depthFirstSearch();
 		linkedListConstruction2();
+    Utils.println(getNthFib(254));
+    
+    List<Object> test = new ArrayList<Object>(Arrays.asList(1, 2, 3, 4, 5));
+    Utils.println(productSum(test));
+    
+    List<Object> test2 =
+       new ArrayList<Object>(Arrays.asList(1, 2, new ArrayList<Object>(Arrays.asList(3)), 4, 5));
+    Utils.println(productSum(test2));
+    
+    List<Object> test3 =
+        new ArrayList<Object>(Arrays.asList(new ArrayList<Object>(Arrays.asList(1, 2)),
+            3, new ArrayList<Object>(Arrays.asList(4, 5))));
+     Utils.println(productSum(test3)); // 3 * (1 + 2) + 3 + 3 * (4 + 5) = 9 + 3 + 12 + 15 = 28+12 = 40
+	
+     int[] arr = new int[] {
+       0, 1, 21, 33, 45, 46, 61, 71, 72, 73  
+     };
+     
+     Utils.println(binarySearch(arr, 0));
+     
+     int[] arr2 = new int[] {
+        141, 1, 17, -7, -17, -27, 18, 541, 8, 7, 7 
+     };
+     Utils.printIntArray(findThreeLargestNumbers(arr2));
+     
+     int[] arr3 = new int[] {
+         55, 43, 11, 3, -3, 10
+     };
+     Utils.printIntArray(findThreeLargestNumbers(arr3));
 	}
 	
-	public static void linkedListConstruction() {
-	  DoublyLinkedList list = new DoublyLinkedList();
-	  list.setHead(new Node2(1));
-	  list.setHead(new Node2(2));
-	  list.setTail(new Node2(8));
-	  list.insertAfter(list.head.next, new Node2(4));
-	  list.insertBefore(list.head.next, new Node2(6));
-	  list.insertBefore(list.head.next, new Node2(6));
-	  Utils.println(list);
-	  list.removeNodesWithValue(6);
-	  Utils.println(list);
-	  list.remove(list.head.next);
-	  Utils.println(list);
-	  list.remove(list.head);
-	  Utils.println(list);
-	  list.remove(list.tail);
-	  Utils.println(list);
-	}
+  public static int[] findThreeLargestNumbers(int[] array) {
+    int m1 = Integer.MIN_VALUE;
+    int m2 = Integer.MIN_VALUE;
+    int m3 = Integer.MIN_VALUE;
+    
+    for(int x : array) {
+      if(x > m1) {
+        m3 = m2;
+        m2 = m1;
+        m1 = x;
+      } else if(x > m2) {
+        m3 = m2;
+        m2 = x;
+      } else if(x > m3) {
+        m3 = x;
+      }
+    }
+    
+    return new int[] {m3, m2, m1};
+  }
+	
+  public static int binarySearch(int[] array, int target) {
+    int left = 0;
+    int right = array.length - 1;
+    
+    while(left <= right) {
+      int mid = (left + right) / 2;
+      int elt = array[mid];
+      if(elt == target) {
+        return mid;
+      } else if(elt < target) {
+        left = mid + 1;
+      } else {
+        right = mid - 1;
+      }
+    }
+    
+    return -1;
+  }
+	
+  public static int productSum(List<Object> array) {
+    return productSum(array, 1);
+  }
+
+  public static int productSum(List<Object> arr, int depth) {
+    int sum = 0;
+    for(Object o : arr) {
+      if(o instanceof ArrayList) {
+        sum += productSum((ArrayList) o, depth + 1);
+      } else {
+        sum += ((int) o);
+      }
+    }
+    return sum * depth;
+  }
+	
+  public static int getNthFib(int n) {
+    int[] mem = new int[] {0, 1};
+    --n;
+    
+    if(n < 2 && n >= 0){
+      return mem[n];
+    }
+    
+    int currentSum = 1;
+    for(int i = 2; i <= n; ++i){
+      currentSum = mem[0] + mem[1];
+      mem[0] = mem[1];
+      mem[1] = currentSum;
+    }
+    
+    return mem[1];
+  }
+  
+  public static void linkedListConstruction() {
+    DoublyLinkedList list = new DoublyLinkedList();
+    list.setHead(new Node2(1));
+    list.setHead(new Node2(2));
+    list.setTail(new Node2(8));
+    list.insertAfter(list.head.next, new Node2(4));
+    list.insertBefore(list.head.next, new Node2(6));
+    list.insertBefore(list.head.next, new Node2(6));
+    Utils.println(list);
+    list.removeNodesWithValue(6);
+    Utils.println(list);
+    list.remove(list.head.next);
+    Utils.println(list);
+    list.remove(list.head);
+    Utils.println(list);
+    list.remove(list.tail);
+    Utils.println(list);
+  }
 	
 	 public static void linkedListConstruction2() {
 	    DoublyLinkedList list = new DoublyLinkedList();
@@ -66,84 +170,110 @@ public class Main {
         head = node;
         tail = node;
       } else {
-        head.prev = node;
-        node.next = head;
-        head = node;
-        node.prev = null;
+        insertBefore(head, node);
       }
     }
 
     public void setTail(Node2 node) {
-      if(tail == null) {
-        head = node;
-        tail = node;
+      if(head == null) {
+        setHead(node);
       } else {
-        tail.next = node;
-        node.prev = tail;
-        tail = node;
-        node.next = null;
+        insertAfter(tail, node);
       }
     }
 
     public void insertBefore(Node2 node, Node2 nodeToInsert) {
-      Node2 tmp = node.prev;
-      node.prev = nodeToInsert;
+      // don't want to insert head before itself
+      if(nodeToInsert == head && nodeToInsert == tail)
+        return;
+      
+      // want to remove before insertion
+      remove(nodeToInsert);
+      
+      nodeToInsert.prev = node.prev;
       nodeToInsert.next = node;
-      nodeToInsert.prev = tmp;
-      tmp.next = nodeToInsert;
+      
+      if(node.prev == null) {
+        head = nodeToInsert;
+      } else {
+        node.prev.next = nodeToInsert;
+      }
+      
+      node.prev = nodeToInsert;
     }
 
     public void insertAfter(Node2 node, Node2 nodeToInsert) {
-      Node2 tmp = node.next;
-      node.next = nodeToInsert;
+      // don't want to insert head before itself
+      if(nodeToInsert == head && nodeToInsert == tail)
+        return;
+      
+      // want to remove before insertion
+      remove(nodeToInsert);
+      
       nodeToInsert.prev = node;
-      nodeToInsert.next = tmp;
-      tmp.prev = nodeToInsert;
+      nodeToInsert.next = node.next;
+      
+      if(node.next == null) {
+        tail = nodeToInsert;
+      } else {
+        node.next.prev = nodeToInsert;
+      }
+      
+      node.next = nodeToInsert;
     }
 
     public void insertAtPosition(int position, Node2 nodeToInsert) {
-      Node2 node = head;
-      for(int i = 1; i < position && node != null; ++i) {
-        node = node.next;
-      }
-      if(node != null) {
-        insertAfter(node, nodeToInsert);
+      if(position == 1) {
+        setHead(nodeToInsert);
+      } else {
+        Node2 node = head;
+        
+        for(int i = 1; i < position && node != null; ++i) {
+          node = node.next;
+        }
+        
+        if(node != null) {
+          insertBefore(node, nodeToInsert);
+        } else {
+          setTail(nodeToInsert);
+        }
       }
     }
 
     public void removeNodesWithValue(int value) {
       Node2 node = head;
       while(node != null) {
-        if(node.value == value) {
-          remove(node);
-        }
+        Node2 nodeTmp = node;
         node = node.next;
+        if(nodeTmp.value == value) {
+          remove(nodeTmp);
+        }
       }
     }
-
+    
     public void remove(Node2 node) {
-      if(node != null) {
-        if(node != head && node != tail) {
-          node.prev.next = node.next;
-          node.next.prev = node.prev;
-        } else if (node == head){
-          if(head == tail) {
-            tail = null;
-          }
-          head = head.next;
-          if(head != null) {
-            head.prev = null;
-          }
-        } else if(node == tail) {
-          if(head == tail) {
-            head = null;
-          }
-          tail = tail.prev;
-          if(tail != null) {
-            tail.next = null;
-          }
-        }
+      if(node == head) {
+        head = head.next;
       }
+      
+      if(node == tail) {
+        tail = tail.prev;
+      }
+      
+      removeNode(node);
+    }
+    
+    public void removeNode(Node2 node) {
+      if(node.prev != null) {
+        node.prev.next = node.next;
+      }
+      
+      if(node.next != null) {
+        node.next.prev = node.prev;
+      }
+      
+      node.prev = null;
+      node.next = null;
     }
 
     public boolean containsNodeWithValue(int value) {
