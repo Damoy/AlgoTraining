@@ -45,13 +45,92 @@ public class Main {
      int[] arr2 = new int[] {
         141, 1, 17, -7, -17, -27, 18, 541, 8, 7, 7 
      };
-     Utils.printIntArray(findThreeLargestNumbers(arr2));
+     Utils.printLnIntArray(findThreeLargestNumbers(arr2));
      
      int[] arr3 = new int[] {
          55, 43, 11, 3, -3, 10
      };
-     Utils.printIntArray(findThreeLargestNumbers(arr3));
+     Utils.printLnIntArray(findThreeLargestNumbers(arr3));
+     Utils.printLnIntArray(bubbleSort(arr2));
+     Utils.printLnIntArray(bubbleSort(new int[] {1, 3, 2}));
+     Utils.printLnIntArray(insertionSort(new int[] {1, 3, 2}));
+     Utils.printLnIntArray(insertionSort(new int[] {8, 1, 6, 4, 6, 1, 2, 58, 5,1}));
+     Utils.printLnIntArray(selectionSort(new int[] {8, 1, 6, 4, 6, 1, 2, 58, 5,1}));
+     Utils.println(isPalindrome("test"));
+     Utils.println(isPalindrome("abba"));
+     Utils.println(isPalindrome("abbaa"));
+     Utils.println(isPalindrome("zabbaz"));
+     Utils.println(caesarCypherEncryptor("xyz", 2));
 	}
+	
+  public static String caesarCypherEncryptor(String str, int key) {
+   String dico = "abcdefghijklmnopqrstuvwxyz";
+   StringBuilder sb = new StringBuilder();
+   for(int i = 0; i < str.length(); ++i) {
+     char c = str.charAt(i);
+     int index = dico.indexOf(c);
+     sb.append(dico.charAt((index + key) % 26));
+   }
+   return sb.toString();
+  }
+	
+  public static boolean isPalindrome(String str) {
+    int len = str.length();
+    for(int i = 0; i < len >> 1; ++i) {
+      if(str.charAt(i) != str.charAt(len - 1 - i)) {
+        return false;
+      }
+    }
+    return true;
+  }
+	
+  public static int[] selectionSort(int[] array) {
+    for(int i = 0; i < array.length; ++i) {
+      int imin = i;
+      for(int j = i + 1; j < array.length; ++j) {
+        if(array[j] < array[imin]) {
+          imin = j;
+        }
+      }
+      int tmp = array[i];
+      array[i] = array[imin];
+      array[imin] = tmp;
+    }
+    return array;
+  }
+	
+  public static int[] insertionSort(int[] array) {
+    for(int i = 1; i < array.length; ++i) {
+      int j = i;
+      while(j > 0 && array[j] < array[j - 1]) {
+        int tmp = array[j];
+        array[j] = array[j - 1];
+        array[j - 1] = tmp;
+        --j;
+      }
+    }
+    return array;
+  }
+	
+  public static int[] bubbleSort(int[] array) {
+    for(int i = 0; i < array.length - 1; ++i) {
+      boolean updated = false;
+      for(int j = i + 1; j < array.length; ++j) {
+        if(array[i] > array[j]) {
+          updated = true;
+          int tmp = array[i];
+          array[i] = array[j];
+          array[j] = tmp;
+        }
+      }
+      if(!updated && i == array.length - 2) {
+        break;
+      }
+    }
+    
+    return array;
+  }
+  
 	
   public static int[] findThreeLargestNumbers(int[] array) {
     int m1 = Integer.MIN_VALUE;
