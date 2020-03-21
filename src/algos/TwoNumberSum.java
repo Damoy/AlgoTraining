@@ -2,31 +2,9 @@ package algos;
 import java.util.HashSet;
 import java.util.Set;
 
-import model.Algo;
-import model.Array;
-import model.Input;
-import utils.Utils;
+public class TwoNumberSum {
 
-@SuppressWarnings("unchecked")
-public class TwoNumberSum implements Algo {
-
-  @Override
-	public void run(Input input) {
-		Array<Integer> array = (Array<Integer>) input.getFirstEntry(Array.class);
-		int targetSum = (int) input.getFirstEntry(Integer.class);
-		process(array, targetSum);
-	}
-  
-  private void process(Array<Integer> inArray, int targetSum) {
-    int[] array = format(inArray);
-    int[] result = twoNumberSum_v2(array, targetSum);
-    printAlgoCall(array, targetSum);
-    Utils.printIntArray(result);
-    Utils.println();
-  }
-  
-  @SuppressWarnings("unused")
-  private int[] twoNumberSum_v1(int[] array, int targetSum) {
+  public static int[] twoNumberSum_v1(int[] array, int targetSum) {
     for(int i = 0; i < array.length; ++i){
       for(int j = 0; j < array.length; ++j){
         if(i == j) continue;
@@ -40,7 +18,7 @@ public class TwoNumberSum implements Algo {
     return new int[]{};
   }
   
-  private int[] twoNumberSum_v2(int[] array, int targetSum) {
+  public static int[] twoNumberSum_v2(int[] array, int targetSum) {
     Set<Integer> set = new HashSet<>();
     for(int i = 0; i < array.length; ++i){
       int diff = targetSum - array[i];
@@ -51,24 +29,6 @@ public class TwoNumberSum implements Algo {
     }
     
     return new int[] {};
-  }
-  
-  private int[] format(Array<Integer> inArray) {
-    return inArray.toList().stream()
-        .mapToInt(Integer::intValue)
-        .toArray();
-  }
-  
-  private static void printAlgoCall(int[] array, int targetSum) {
-    StringBuilder sb = new StringBuilder();
-    sb.append("#");
-    sb.append(TwoNumberSum.class.getSimpleName());
-    sb.append("-launch;input:");
-    sb.append(Utils.intArrayToString(array));
-    sb.append("-");
-    sb.append(targetSum);
-    sb.append("#");
-    Utils.println(sb.toString());
   }
 
 }

@@ -1,14 +1,44 @@
 package algos;
 
-import model.Algo;
-import model.Input;
+import java.util.ArrayList;
+import java.util.List;
 
 // Worst: O(n) time - O(n) space
-public class BranchSums implements Algo {
+public class BranchSums {
+  
+  public static class BinaryTree {
+    public int value;
+    public BinaryTree left;
+    public BinaryTree right;
 
-  @Override
-  public void run(Input input) {
-    // TODO
+    public BinaryTree(int value) {
+      this.value = value;
+      this.left = null;
+      this.right = null;
+    }
+  }
+
+  public static List<Integer> branchSums(BinaryTree root) {
+    List<Integer> list = new ArrayList<>();
+    branchSumsUtil_rec(root, list, 0);
+    return list;
+  }
+  
+  private static void branchSumsUtil_rec(BinaryTree root, List<Integer> results, int currentSum) {
+    currentSum += root.value;
+    
+    if(root.left == null && root.right == null) {
+     results.add(currentSum);
+     return;
+    }
+    
+    if(root.left != null) {
+      branchSumsUtil_rec(root.left, results, currentSum);
+    }
+    
+    if(root.right != null) {
+      branchSumsUtil_rec(root.right, results, currentSum);
+    }
   }
 
 }

@@ -1,29 +1,16 @@
 package algos;
 
-import model.Algo;
 import model.BST;
-import model.Input;
-import utils.Utils;
 
-public class ClosestValueInBst implements Algo {
+public final class ClosestValueInBst {
+  
+  public static Integer closestValueInBst(BST tree, int target) {
+    return closestValueInBst_ite(tree, target, 0);
+  }
 
-  @Override
-  public void run(Input input) {
-    BST tree = (BST) input.getFirstEntry(BST.class);
-    int target = (Integer) input.getFirstEntry(Integer.class);
-    process(tree, target);
-  }
-  
-  private void process(BST tree, int target) {
-    int result = closestValueInBst_ite(tree, target, tree.value);
-    printAlgoCall(tree, target);
-    Utils.println(result);
-  }
-  
   // Average: O(Log(n)) time - O (Log(n)) space
   // Worst: O(n) time - O(n) space
-  @SuppressWarnings("unused")
-  private Integer closestValueInBst_rec(BST tree, int target, int currentClosest) {
+  public static Integer closestValueInBst_rec(BST tree, int target, int currentClosest) {
     if(tree == null) {
       return currentClosest;
     }
@@ -43,7 +30,7 @@ public class ClosestValueInBst implements Algo {
   
   // Average: O(Log(n)) time - O (1) space
   // Worst: O(n) time - O(1) space
-  private Integer closestValueInBst_ite(BST tree, int target, int currentClosest) {
+  public static Integer closestValueInBst_ite(BST tree, int target, int currentClosest) {
     BST currentTree = tree;
     
     while(currentTree != null) {
@@ -61,16 +48,4 @@ public class ClosestValueInBst implements Algo {
     return currentClosest;
   }
   
-  private static void printAlgoCall(BST bst, int target) {
-    StringBuilder sb = new StringBuilder();
-    sb.append("#");
-    sb.append(ClosestValueInBst.class.getSimpleName());
-    sb.append("-launch;input:");
-    sb.append(bst.toString());
-    sb.append("-");
-    sb.append(target);
-    sb.append("#");
-    Utils.println(sb.toString());
-  }
-
 }
