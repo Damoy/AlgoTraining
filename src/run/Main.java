@@ -2,8 +2,12 @@ package run;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.Stack;
 
@@ -61,7 +65,145 @@ public class Main {
      Utils.println(isPalindrome("abbaa"));
      Utils.println(isPalindrome("zabbaz"));
      Utils.println(caesarCypherEncryptor("xyz", 2));
+     printThreeNumberSum(threeNumberSum(
+         new int[] {
+            12, 3, 1, 2, -6, 5, -8, 6 
+         }, 0));
+     Utils.printLnIntArray(smallestDifference_sort(
+         new int[] {
+             -1, 5, 10, 20, 28, 3
+         },
+         new int[] {
+             26, 134, 135, 15, 17
+         }
+      ));
+     Utils.println(moveElementToEnd(
+         Arrays.asList(new Integer[] {2, 1, 2, 2, 2, 3, 4, 2}), 2));
+     Utils.println(moveElementToEnd(
+         Arrays.asList(new Integer[] {3, 3, 3, 3}), 3));
 	}
+	
+  public static List<Integer> moveElementToEnd(List<Integer> array, int toMove) {
+    if(array == null || array.isEmpty())
+      return array;
+    
+    int n = array.size();
+    int endPtr = n - 1;
+    
+    while(array.get(endPtr) == toMove && endPtr > 0) {
+      --endPtr;
+    }
+    
+    for(int i = 0; i < endPtr; ++i) {
+      if(array.get(i) == toMove) {
+        array.set(i, array.get(endPtr));
+        array.set(endPtr, toMove);
+        while(array.get(endPtr) == toMove) {
+          --endPtr;
+        }
+      }
+    }
+    return array;
+  }
+	
+  public static int[] smallestDifference_sort(int[] arrayOne, int[] arrayTwo) {
+    Arrays.sort(arrayOne);
+    Arrays.sort(arrayTwo);
+    
+    int ptr1 = 0;
+    int ptr2 = 0;
+    int bestDiff = Integer.MAX_VALUE;
+    int bestElt1 = 0;
+    int bestElt2 = 0;
+    
+    while(ptr1 < arrayOne.length && ptr2 < arrayTwo.length) {
+      int elt1 = arrayOne[ptr1];
+      int elt2  = arrayTwo[ptr2];
+      
+      if(elt1 == elt2) {
+        return new int[] {elt1, elt2};
+      }
+      if(elt1 < elt2) {
+        ++ptr1;
+      } else {
+        ++ptr2;
+      }
+      
+      int diff = Math.abs(elt1 - elt2);
+      if(diff < bestDiff) {
+        bestDiff = diff;
+        bestElt1 = elt1;
+        bestElt2 = elt2;
+      }
+    }
+    
+    return new int[] {bestElt1, bestElt2};
+  }
+	
+  public static int[] smallestDifference_nosort(int[] arrayOne, int[] arrayTwo) {
+    Map<Integer, int[]> m = new HashMap<Integer, int[]>();
+    
+    for(int x : arrayOne) {
+      for(int v : arrayTwo) {
+        m.put(Math.abs(x - v), new int[] {x, v});
+      }
+    }
+    
+    Set<Entry<Integer, int[]>> entrySet = m.entrySet();
+    Iterator<Entry<Integer, int[]>> it = entrySet.iterator();
+    Entry<Integer, int[]> smallest = it.next();
+    
+    while(it.hasNext()) {
+      Entry<Integer, int[]> entry = it.next();  
+      if(smallest.getKey() > entry.getKey()) {
+        smallest = entry;
+      }
+    }
+    
+    return smallest.getValue();
+  }
+	
+  public static List<Integer[]> threeNumberSum(int[] array, int targetSum) {
+    Arrays.sort(array); 
+    List<Integer[]> results = new ArrayList<Integer[]>();
+    
+    for(int i = 0; i < array.length - 2; ++i) {
+      int left = i + 1;
+      int right = array.length - 1;
+      while(left < right) {
+        int leftElt = array[left];
+        int rightElt = array[right];
+        int sum = array[i] + leftElt + rightElt;
+        if(sum == targetSum) {
+          results.add(new Integer[] {array[i], leftElt, rightElt});
+          ++left;
+          --right;
+        } else if(sum < targetSum) {
+          ++left;
+        } else if(sum > targetSum) {
+          --right;
+        }
+      }
+    }
+    
+    return results;
+  }
+  
+  public static void printThreeNumberSum(List<Integer[]> list) {
+    StringBuilder sb = new StringBuilder();
+    sb.append("[");
+    for(Integer[] arr : list) {
+      sb.append("[");
+      for(int i = 0; i < arr.length - 1; ++i) {
+        sb.append(arr[i]);
+        sb.append(",");
+      }
+      sb.append(arr[arr.length - 1]);
+      sb.append("]");
+    }
+    sb.append("]");
+    Utils.println(sb.toString());
+  }
 	
   public static String caesarCypherEncryptor(String str, int key) {
    String dico = "abcdefghijklmnopqrstuvwxyz";
