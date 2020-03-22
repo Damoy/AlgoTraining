@@ -2,24 +2,27 @@ package run;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.Stack;
 
-import algos.BranchSums.BinaryTree;
+import algos.BinarySearch;
 import algos.BranchSums;
+import algos.BranchSums.BinaryTree;
+import algos.BubbleSort;
+import algos.CaesarCypherEncryptor;
 import algos.ClosestValueInBst;
 import algos.DepthFirstSearch.Node;
 import algos.DoublyLinkedList;
+import algos.FindThreeLargestNumbers;
+import algos.GetNthFib;
+import algos.InsertionSort;
+import algos.IsPalindrome;
+import algos.MoveElementToEnd;
+import algos.ProductSum;
+import algos.SelectionSort;
+import algos.SmallestDifference;
+import algos.ThreeNumberSum;
 import algos.TwoNumberSum;
 import model.BST;
-import utils.Array;
-import utils.Input;
 import utils.Utils;
 
 public class Main {
@@ -30,42 +33,86 @@ public class Main {
     branchSums();
     depthFirstSearch();
     linkedListConstruction2();
-    Utils.println(getNthFib(254));
+    getNthFib();
+    productSum();
+    binarySearch();
+    bubbleSort();
+    insertionSort();
+    selectionSort();
+    isPalindrome();
+    caesarCypherEncryptor();
+    threeNumberSum();
+    smallestDifference();
+    moveElementToEnd();
+  }
+  
+  public static void moveElementToEnd() {
+    Utils.println(MoveElementToEnd.moveElementToEnd(Arrays.asList(new Integer[] { 2, 1, 2, 2, 2, 3, 4, 2 }), 2));
+    Utils.println(MoveElementToEnd.moveElementToEnd(Arrays.asList(new Integer[] { 3, 3, 3, 3 }), 3));
+  }
+  
+  public static void smallestDifference() {
+    Utils.printLnIntArray(
+        SmallestDifference.smallestDifference(new int[] { -1, 5, 10, 20, 28, 3 },
+            new int[] { 26, 134, 135, 15, 17 }));
+  }
+  
+  public static void threeNumberSum() {
+    ThreeNumberSum.printThreeNumberSum(
+      ThreeNumberSum.threeNumbersSum(new int[] { 12, 3, 1, 2, -6, 5, -8, 6 }, 0));
+  }
+  
+  public static void caesarCypherEncryptor() {
+    Utils.println(CaesarCypherEncryptor.caesarCypherEncryptor("xyz", 2));
+  }
+  
+  public static void isPalindrome() {
+    Utils.println(IsPalindrome.isPalindrome("test"));
+    Utils.println(IsPalindrome.isPalindrome("abba"));
+    Utils.println(IsPalindrome.isPalindrome("abbaa"));
+    Utils.println(IsPalindrome.isPalindrome("zabbaz"));
+  }
+  
+  public static void selectionSort() {
+    Utils.printLnIntArray(SelectionSort.selectionSort(new int[] { 8, 1, 6, 4, 6, 1, 2, 58, 5, 1 }));
+  }
+  
+  public static void insertionSort() {
+    Utils.printLnIntArray(InsertionSort.insertionSort(new int[] { 1, 3, 2 }));
+    Utils.printLnIntArray(InsertionSort.insertionSort(new int[] { 8, 1, 6, 4, 6, 1, 2, 58, 5, 1 }));
+  }
+  
+  public static void bubbleSort() {
+    Utils.printLnIntArray(BubbleSort.bubbleSort(new int[] { 8, 1, 6, 4, 6, 1, 2, 58, 5, 1 }));
+  }
+  
+  public static void threeLargestNumbers() {
+    int[] arr2 = new int[] { 141, 1, 17, -7, -17, -27, 18, 541, 8, 7, 7 };
+    Utils.printLnIntArray(FindThreeLargestNumbers.findThreeLargestNumbers(arr2));
 
+    int[] arr3 = new int[] { 55, 43, 11, 3, -3, 10 };
+    Utils.printLnIntArray(FindThreeLargestNumbers.findThreeLargestNumbers(arr3));
+  }
+  
+  public static void binarySearch() {
+    int[] arr = new int[] { 0, 1, 21, 33, 45, 46, 61, 71, 72, 73 };
+    Utils.println(BinarySearch.binarySearch(arr, 0));
+  }
+  
+  public static void productSum() {
     List<Object> test = new ArrayList<Object>(Arrays.asList(1, 2, 3, 4, 5));
-    Utils.println(productSum(test));
+    Utils.println(ProductSum.productSum(test));
 
     List<Object> test2 = new ArrayList<Object>(Arrays.asList(1, 2, new ArrayList<Object>(Arrays.asList(3)), 4, 5));
-    Utils.println(productSum(test2));
+    Utils.println(ProductSum.productSum(test2));
 
     List<Object> test3 = new ArrayList<Object>(
         Arrays.asList(new ArrayList<Object>(Arrays.asList(1, 2)), 3, new ArrayList<Object>(Arrays.asList(4, 5))));
-    Utils.println(productSum(test3)); // 3 * (1 + 2) + 3 + 3 * (4 + 5) = 9 + 3 + 12 + 15 = 28+12 = 40
-
-    int[] arr = new int[] { 0, 1, 21, 33, 45, 46, 61, 71, 72, 73 };
-
-    Utils.println(binarySearch(arr, 0));
-
-    int[] arr2 = new int[] { 141, 1, 17, -7, -17, -27, 18, 541, 8, 7, 7 };
-    Utils.printLnIntArray(findThreeLargestNumbers(arr2));
-
-    int[] arr3 = new int[] { 55, 43, 11, 3, -3, 10 };
-    Utils.printLnIntArray(findThreeLargestNumbers(arr3));
-    Utils.printLnIntArray(bubbleSort(arr2));
-    Utils.printLnIntArray(bubbleSort(new int[] { 1, 3, 2 }));
-    Utils.printLnIntArray(insertionSort(new int[] { 1, 3, 2 }));
-    Utils.printLnIntArray(insertionSort(new int[] { 8, 1, 6, 4, 6, 1, 2, 58, 5, 1 }));
-    Utils.printLnIntArray(selectionSort(new int[] { 8, 1, 6, 4, 6, 1, 2, 58, 5, 1 }));
-    Utils.println(isPalindrome("test"));
-    Utils.println(isPalindrome("abba"));
-    Utils.println(isPalindrome("abbaa"));
-    Utils.println(isPalindrome("zabbaz"));
-    Utils.println(caesarCypherEncryptor("xyz", 2));
-    printThreeNumberSum(threeNumberSum(new int[] { 12, 3, 1, 2, -6, 5, -8, 6 }, 0));
-    Utils.printLnIntArray(
-        smallestDifference_sort(new int[] { -1, 5, 10, 20, 28, 3 }, new int[] { 26, 134, 135, 15, 17 }));
-    Utils.println(moveElementToEnd(Arrays.asList(new Integer[] { 2, 1, 2, 2, 2, 3, 4, 2 }), 2));
-    Utils.println(moveElementToEnd(Arrays.asList(new Integer[] { 3, 3, 3, 3 }), 3));
+    Utils.println(ProductSum.productSum(test3));
+  }
+  
+  public static void getNthFib() {
+    Utils.println(GetNthFib.getNthFib(254));
   }
 
   public static void linkedListConstruction2() {

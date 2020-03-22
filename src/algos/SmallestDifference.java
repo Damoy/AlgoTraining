@@ -8,6 +8,10 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 public class SmallestDifference {
+  
+  public static int[] smallestDifference(int[] arrayOne, int[] arrayTwo) {
+    return smallestDifference_sort(arrayOne, arrayTwo);
+  }
 
   public static int[] smallestDifference_sort(int[] arrayOne, int[] arrayTwo) {
     Arrays.sort(arrayOne);
