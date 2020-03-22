@@ -1,8 +1,19 @@
 package algos;
 
-import model.BST;
-
 public final class ClosestValueInBst {
+  
+  public static class BST {
+
+    public int value;
+    public BST left;
+    public BST right;
+
+    public BST(int value) {
+      this.value = value;
+    }
+    
+  }
+
   
   public static Integer closestValueInBst(BST tree, int target) {
     return closestValueInBst_ite(tree, target, 0);

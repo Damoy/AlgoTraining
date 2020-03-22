@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import algos.BSTConstruction;
 import algos.BinarySearch;
 import algos.BranchSums;
 import algos.BranchSums.BinaryTree;
@@ -22,7 +23,6 @@ import algos.SelectionSort;
 import algos.SmallestDifference;
 import algos.ThreeNumberSum;
 import algos.TwoNumberSum;
-import model.BST;
 import utils.Utils;
 
 public class Main {
@@ -44,6 +44,35 @@ public class Main {
     threeNumberSum();
     smallestDifference();
     moveElementToEnd();
+    bstConstruction();
+  }
+  
+  public static void bstConstruction() {
+    BSTConstruction.BST bst = new BSTConstruction.BST(10);
+    bst.left = new BSTConstruction.BST(5); 
+    bst.left.left = new BSTConstruction.BST(2); 
+    bst.left.right = new BSTConstruction.BST(5); 
+    bst.left.left.left = new BSTConstruction.BST(1); 
+    bst.right = new BSTConstruction.BST(15); 
+    bst.right.right = new BSTConstruction.BST(22); 
+    bst.right.left = new BSTConstruction.BST(13); 
+    bst.right.left.right = new BSTConstruction.BST(14); 
+    Utils.println(bst.contains(5));
+    Utils.println(bst.contains(10));
+    Utils.println(bst.contains(1));
+    Utils.println(bst.contains(14));
+    Utils.println(bst.contains(66));
+    bst.print();
+    bst.insert(12);
+    bst.print();
+    BSTConstruction.BST removed = bst.remove(12);
+    Utils.println(removed != null && removed.value == 12);
+    
+    BSTConstruction.BST bst2 = new BSTConstruction.BST(10);
+    bst2.insert(15).insert(11).insert(22).remove(10);
+    List<Integer> arr = new ArrayList<Integer>();
+    bst2.inOrderTraverse(arr);
+    Utils.println(arr);
   }
   
   public static void moveElementToEnd() {
@@ -163,15 +192,15 @@ public class Main {
   }
 
   public static void closestValueInBst() {
-    BST tree = new BST(10);
-    tree.left = new BST(5);
-    tree.left.left = new BST(2);
-    tree.left.right = new BST(5);
-    tree.left.left.left = new BST(1);
-    tree.right = new BST(15);
-    tree.right.left = new BST(13);
-    tree.right.right = new BST(22);
-    tree.right.left.right = new BST(14);
+    ClosestValueInBst.BST tree = new ClosestValueInBst.BST(10);
+    tree.left = new ClosestValueInBst.BST(5);
+    tree.left.left = new ClosestValueInBst.BST(2);
+    tree.left.right = new ClosestValueInBst.BST(5);
+    tree.left.left.left = new ClosestValueInBst.BST(1);
+    tree.right = new ClosestValueInBst.BST(15);
+    tree.right.left = new ClosestValueInBst.BST(13);
+    tree.right.right = new ClosestValueInBst.BST(22);
+    tree.right.left.right = new ClosestValueInBst.BST(14);
 
     ClosestValueInBst.closestValueInBst(tree, 12);
   }
