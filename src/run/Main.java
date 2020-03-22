@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import algos.BSTConstruction;
 import algos.BinarySearch;
 import algos.BranchSums;
-import algos.BranchSums.BinaryTree;
 import algos.BubbleSort;
 import algos.CaesarCypherEncryptor;
 import algos.ClosestValueInBst;
@@ -17,12 +15,16 @@ import algos.FindThreeLargestNumbers;
 import algos.GetNthFib;
 import algos.InsertionSort;
 import algos.IsPalindrome;
+import algos.MaxSubsetSumNoAdjacent;
 import algos.MoveElementToEnd;
+import algos.NumberOfWaysToMakeChange;
 import algos.ProductSum;
 import algos.SelectionSort;
 import algos.SmallestDifference;
 import algos.ThreeNumberSum;
 import algos.TwoNumberSum;
+import model.BinaryTree;
+import model.BST;
 import utils.Utils;
 
 public class Main {
@@ -45,30 +47,115 @@ public class Main {
     smallestDifference();
     moveElementToEnd();
     bstConstruction();
+    bstValidation();
+    bstTraversals();
+    invertBinaryTree();
+    maxSubsetSumNoAdjacent();
+    numberOfWaysToMakeChange();
+  }
+  
+  public static void numberOfWaysToMakeChange() {
+    Utils.println(
+        NumberOfWaysToMakeChange.numberOfWaysToMakeChange(6, 
+            new int[] {1, 5}));
+  }
+  
+  public static void maxSubsetSumNoAdjacent() {
+    Utils.println(
+      MaxSubsetSumNoAdjacent.maxSubsetSumNoAdjacent(
+          new int[] {
+              75, 105, 120, 75, 90, 135
+          })
+    );
+  }
+  
+  public static void invertBinaryTree() {
+    BinaryTree bt = new BinaryTree(1);
+    bt.left = new BinaryTree(2);
+    bt.left.left = new BinaryTree(4);
+    bt.left.left.left = new BinaryTree(8);
+    bt.left.left.right = new BinaryTree(9);
+    bt.left.right = new BinaryTree(5);
+    bt.right = new BinaryTree(3);
+    bt.right.left = new BinaryTree(6);
+    bt.right.right = new BinaryTree(7);
+    
+    List<Integer> array = new ArrayList<Integer>();
+    Utils.println(BinaryTree.inOrderTraverse(bt, array));
+
+    array.clear();
+    BinaryTree.invertBinaryTree(bt);
+    Utils.println(BinaryTree.inOrderTraverse(bt, array));
+  }
+  
+  public static void bstTraversals() {
+    BST bst =
+        new BST(10)
+        .insert(5)
+        .insert(15)
+        .insert(5)
+        .insert(2)
+        .insert(1)
+        .insert(22);
+    
+    List<Integer> array1 = new ArrayList<Integer>();
+    Utils.println(BST.preOrderTraverse(bst, array1));
+    
+    List<Integer> array2 = new ArrayList<Integer>();
+    Utils.println(BST.inOrderTraverse(bst, array2));
+    
+    List<Integer> array3 = new ArrayList<Integer>();
+    Utils.println(BST.postOrderTraverse(bst, array3));
+  }
+  
+  public static void bstValidation() {
+    BST bst = new BST(10);
+    bst.left = new BST(5); 
+    bst.left.left = new BST(2); 
+    bst.left.right = new BST(5); 
+    bst.left.left.left = new BST(1); 
+    bst.right = new BST(15); 
+    bst.right.right = new BST(22); 
+    bst.right.left = new BST(13); 
+    bst.right.left.right = new BST(14); 
+    Utils.println(BST.validateBst(bst));
+    
+    BST bst2 =
+        new BST(10)
+        .insert(5)
+        .insert(15)
+        .insert(5)
+        .insert(2)
+        .insert(1)
+        .insert(22);
+    bst2.left.right.right = new BST(11);
+    List<Integer> arr = new ArrayList<Integer>();
+    bst2.inOrderTraverse(arr);
+    Utils.println(arr);
+    Utils.println(BST.validateBst(bst2));
   }
   
   public static void bstConstruction() {
-    BSTConstruction.BST bst = new BSTConstruction.BST(10);
-    bst.left = new BSTConstruction.BST(5); 
-    bst.left.left = new BSTConstruction.BST(2); 
-    bst.left.right = new BSTConstruction.BST(5); 
-    bst.left.left.left = new BSTConstruction.BST(1); 
-    bst.right = new BSTConstruction.BST(15); 
-    bst.right.right = new BSTConstruction.BST(22); 
-    bst.right.left = new BSTConstruction.BST(13); 
-    bst.right.left.right = new BSTConstruction.BST(14); 
+    BST bst = new BST(10);
+    bst.left = new BST(5); 
+    bst.left.left = new BST(2); 
+    bst.left.right = new BST(5); 
+    bst.left.left.left = new BST(1); 
+    bst.right = new BST(15); 
+    bst.right.right = new BST(22); 
+    bst.right.left = new BST(13); 
+    bst.right.left.right = new BST(14); 
+    
     Utils.println(bst.contains(5));
     Utils.println(bst.contains(10));
     Utils.println(bst.contains(1));
     Utils.println(bst.contains(14));
     Utils.println(bst.contains(66));
-    bst.print();
     bst.insert(12);
-    bst.print();
-    BSTConstruction.BST removed = bst.remove(12);
+    BST removed = bst.remove(12);
     Utils.println(removed != null && removed.value == 12);
     
-    BSTConstruction.BST bst2 = new BSTConstruction.BST(10);
+    BST bst2 = new BST(10);
     bst2.insert(15).insert(11).insert(22).remove(10);
     List<Integer> arr = new ArrayList<Integer>();
     bst2.inOrderTraverse(arr);

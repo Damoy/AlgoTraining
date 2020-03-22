@@ -3,20 +3,10 @@ package algos;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.BinaryTree;
+
 // Worst: O(n) time - O(n) space
 public class BranchSums {
-  
-  public static class BinaryTree {
-    public int value;
-    public BinaryTree left;
-    public BinaryTree right;
-
-    public BinaryTree(int value) {
-      this.value = value;
-      this.left = null;
-      this.right = null;
-    }
-  }
 
   public static List<Integer> branchSums(BinaryTree root) {
     List<Integer> list = new ArrayList<>();
