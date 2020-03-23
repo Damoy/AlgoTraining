@@ -15,7 +15,9 @@ import algos.FindThreeLargestNumbers;
 import algos.GetNthFib;
 import algos.InsertionSort;
 import algos.IsPalindrome;
+import algos.LevenshteinDistance;
 import algos.MaxSubsetSumNoAdjacent;
+import algos.MinNumberOfCoinsForChange;
 import algos.MoveElementToEnd;
 import algos.NumberOfWaysToMakeChange;
 import algos.ProductSum;
@@ -52,6 +54,20 @@ public class Main {
     invertBinaryTree();
     maxSubsetSumNoAdjacent();
     numberOfWaysToMakeChange();
+    minNumberOfCoinsForChange();
+    levenshteinDistance();
+  }
+  
+  public static void levenshteinDistance() {
+    Utils.println(LevenshteinDistance.levenshteinDistance("abc", "yabd"));
+    Utils.println(LevenshteinDistance.levenshteinDistance("aby", "zaby"));
+  }
+  
+  public static void minNumberOfCoinsForChange() {
+    Utils.println(MinNumberOfCoinsForChange.minNumberOfCoinsForChange(
+        7, new int[] {
+            1, 5, 10
+    }));
   }
   
   public static void numberOfWaysToMakeChange() {
