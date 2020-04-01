@@ -4,7 +4,7 @@ def balancedBrackets(string):
     closingBrackets = [')', ']', '}']
     bracketsMapping = {k:v for k,v in zip(openingBrackets, closingBrackets)}
 
-    for char in list(string):
+    for char in string:
         if char in openingBrackets:
             stack.append(char)
         elif char in closingBrackets:
